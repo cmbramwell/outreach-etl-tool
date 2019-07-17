@@ -1,0 +1,8 @@
+{
+  "client_id": "client_id",
+  "client_secret": "client_secret",
+  "refresh_token": "refresh_token",
+  "scope": "prospects.read sequences.read accounts.read opportunities.read mailings.read",
+  "redirect_uri": "redirect_uri",
+  "start_date": "2019-01-01T00:00:00Z"
+}
