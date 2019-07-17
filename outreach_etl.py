@@ -47,7 +47,7 @@ logging.basicConfig(handlers=handlers, level=logging.INFO, format=format, datefm
 def load_json(path):
     with open(path) as fil:
         return json.load(fil)
-
+'''
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
@@ -57,7 +57,9 @@ parser.add_argument(
 
 args = parser.parse_args()
 config = load_json(args.config)
-
+'''
+config = load_json('acunetix_creds.json')
+    
 # ---------------------------------------------------------------------------- #
 
 # Flatten JSON
@@ -166,10 +168,10 @@ def sync(endpoint, page_size, querystring=None):
 # ---------------------------------------------------------------------------- #
 
 # Set min and max dates for querystring
-min_date = date(2019, 7, 15) # set minimum pull date
+min_date = date(2019, 1, 1) # set minimum pull date
 max_date = (datetime.now() - timedelta(days = 1)).date() # set maximum pull date
 
-page_size = 100
+page_size = 250
 
 querystring = {'sort': '-createdAt',
                 'page[limit]': str(page_size),
@@ -191,7 +193,7 @@ service_cred = "turn-river-capital-81ffa9ec748e.json"
 credentials = service_account.Credentials.from_service_account_file(
     service_cred)
 
-prospects_dF.to_gbq(destination_table="netsparker.outreach_prospects",
+prospects_dF.to_gbq(destination_table="table_name",
                         if_exists="replace",
                         credentials=credentials)
 
