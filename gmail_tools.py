@@ -21,7 +21,7 @@ from apiclient import errors
 
 # Authentication Flow
 
-SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 
 path_cred = '/Users/christianbramwell/Documents/Turn:River Capital/Coding Scripts/google-cloud-credentials/'
 
@@ -38,7 +38,7 @@ if not creds or not creds.valid:
         creds.refresh(Request())
     else:
         flow = InstalledAppFlow.from_client_secrets_file(
-            path_cred + 'credentials.json', SCOPES)
+            path_cred + 'credentials_2.json', SCOPES)
         creds = flow.run_local_server()
     # Save the credentials for the next run
     with open(path_cred + 'token.pickle', 'wb') as token:
@@ -46,8 +46,7 @@ if not creds or not creds.valid:
 
 GMAIL = discovery.build('gmail', 'v1', credentials=creds, cache_discovery=False)
 
-def SendMessageWithAttachment(sender, to, subject, message_text, file_dir,
-                                filename):
+def SendMessageWithAttachment(sender, to, subject, message_text, file_dir, filename):
     """Create a message for an email.
 
     Args:
@@ -103,5 +102,3 @@ def SendMessageWithAttachment(sender, to, subject, message_text, file_dir,
     GMAIL.users().messages().send(userId='me', body=body).execute()
 
     return {'raw': body}
-
-SendMessageWithAttachment('christian@turnriver.com', 'christian@turnriver.com', 'test', 'test', os.getcwd(), 'log_outreach_script.log')
