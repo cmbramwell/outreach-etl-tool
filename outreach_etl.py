@@ -33,7 +33,10 @@ import json
 from google.cloud import storage
 from google.cloud import bigquery
 
-file_handler = logging.FileHandler(filename='log_outreach_script.log', mode='w')
+from gmail_tools import SendMessageWithAttachment
+
+log_filename = 'log_outreach_script.log'
+file_handler = logging.FileHandler(filename=log_filename, mode='w')
 stdout_handler = logging.StreamHandler(sys.stdout)
 handlers = [file_handler, stdout_handler]
 
@@ -59,7 +62,7 @@ args = parser.parse_args()
 config = load_json(args.config)
 '''
 config = load_json('acunetix_creds.json')
-    
+
 # ---------------------------------------------------------------------------- #
 
 # Flatten JSON
@@ -168,10 +171,10 @@ def sync(endpoint, page_size, querystring=None):
 # ---------------------------------------------------------------------------- #
 
 # Set min and max dates for querystring
-min_date = date(2019, 1, 1) # set minimum pull date
+min_date = date(2019, 7, 10) # set minimum pull date
 max_date = (datetime.now() - timedelta(days = 1)).date() # set maximum pull date
 
-page_size = 250
+page_size = 100
 
 querystring = {'sort': '-createdAt',
                 'page[limit]': str(page_size),
@@ -180,6 +183,14 @@ querystring = {'sort': '-createdAt',
 sync('prospects', page_size, querystring=querystring)
 sync('sequences', page_size)
 sync('mailings', page_size, querystring=querystring)
+
+# Send log file via email
+sender = 'me'
+to = config['email']
+subject = 'Outreach ETL Log'
+message_text = 'This is the log file for the Outreach ETL tool.'
+file_dir = os.getcwd()
+SendMessageWithAttachment(sender, to, subject, message_text, file_dir, log_filename)
 
 # ---------------------------------------------------------------------------- #
 '''
