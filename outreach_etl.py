@@ -38,14 +38,15 @@ from gmail_tools import SendMessageWithAttachment
 from google.oauth2 import service_account
 from google.cloud import bigquery
 
+# BigQuery credentials
 cred_path = '/Users/christianbramwell/Documents/Turn:River Capital/Coding Scripts/google-cloud-credentials/'
 service_cred = cred_path + "turn-river-capital-5af901fddf11.json"
 
+# Logging
 log_filename = 'log-outreach-script.log'
 file_handler = logging.FileHandler(filename=log_filename, mode='w')
 stdout_handler = logging.StreamHandler(sys.stdout)
 handlers = [file_handler, stdout_handler]
-
 format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logging.basicConfig(handlers=handlers, level=logging.INFO, format=format, datefmt='%d-%b-%y %H:%M:%S')
 
@@ -143,40 +144,49 @@ def outreach_api(endpoint, access_token, querystring=None, next_page_url=None):
     dF = pd.DataFrame(data=json_norm)
     return {"data": dF, "json_data": json_data}
 
-def sync(endpoint, page_size, querystring=None):
+def sync(endpoint, page_size, date_list):
 
     # Get acess token using the refresh token
     access_token = get_access_token()['access_token']
+    response_dF = pd.DataFrame(columns=outreach_api(endpoint, access_token)['data'].columns)
 
-    response = outreach_api(endpoint, access_token, querystring=querystring) # get the columns of the prospects table
-    response_dF = response['data'] # create empty DataFrame
+    for date in date_list:
 
-    # Get the number of prospects and number of pages
-    num_responses = response['json_data']['meta']['count']
-    logging.info('Number of {} is {}'.format(endpoint, num_responses))
-    num_pages = math.ceil(num_responses / page_size)
-    logging.info('Completed Page 1 out of {}'.format(num_pages))
+        querystring = {'sort': '-updatedAt',
+                        'page[limit]': str(page_size),
+                        'filter[updatedAt]': date + ".." + date}
 
-    if num_pages > 1:
+        logging.info('Getting {} for {}'.format(endpoint, date))
+        response = outreach_api(endpoint, access_token, querystring=querystring) # get the columns of the prospects table
+        temp_dF = response['data'] # create temporary DataFrame
+        response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
 
-        count = 2
-        while 'next' in response['json_data']['links']:
+        # Get the number of prospects and number of pages
+        num_responses = response['json_data']['meta']['count']
+        logging.info('Number of {} is {}'.format(endpoint, num_responses))
+        num_pages = math.ceil(num_responses / page_size)
+        logging.info('Completed Page 1 out of {}'.format(num_pages))
 
-            next_page_url = response['json_data']['links']['next']
-            response = outreach_api(endpoint, access_token, next_page_url=next_page_url)
+        if num_pages > 1:
 
-            # Add prospects to dataframe
-            temp_dF = response["data"]
-            response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
+            count = 2
+            while 'next' in response['json_data']['links']:
 
-            logging.info('Completed Page {} out of {}'.format(count, num_pages))
-            complete = 1
-            count += 1
+                next_page_url = response['json_data']['links']['next']
+                response = outreach_api(endpoint, access_token, next_page_url=next_page_url)
 
-    file_date = str(datetime.today().date() - timedelta(days=1))
-    filename = "{} outreach_{}.csv".format(file_date, endpoint)
-    response_dF.to_csv(filename, index=False)
-    #bigquery_upload(config['project'], config['datset'], config['table'], response_dF)
+                # Add prospects to dataframe
+                temp_dF = response["data"]
+                response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
+
+                logging.info('Completed Page {} out of {}'.format(count, num_pages))
+                count += 1
+
+    response_dF = response_dF.infer_objects()
+    # file_date = str(datetime.today().date())
+    # filename = "{} outreach_{}.csv".format(file_date, endpoint)
+    # response_dF.to_csv(filename, index=False)
+    bigquery_upload(config['project'], config['dataset'], config['table'], response_dF)
 
 def bigquery_upload(project_name, dataset_name, table_name, dF):
 
@@ -204,18 +214,18 @@ else:
 
 page_size = 100
 
-querystring = {'sort': '-updatedAt',
-                'page[limit]': str(page_size),
-                'filter[createdAt]': min_date.strftime("%Y-%m-%d") + ".." + max_date.strftime("%Y-%m-%d")}
+delta = max_date - min_date
 
-sync('prospects', page_size, querystring=querystring)
-sync('sequences', page_size)
-sync('mailings', page_size, querystring=querystring)
+date_list = [(min_date + timedelta(i)).strftime("%Y-%m-%d") for i in range(delta.days + 1)]
+
+sync('prospects', page_size, date_list)
+sync('sequences', page_size, date_list)
+sync('mailings', page_size, date_list)
 
 # Send log file via email
 sender = 'me'
 to = config['email']
-subject = 'Outreach ETL Log'
+subject = config['table'] + ' - Outreach ETL Log'
 message_text = 'This is the log file for the Outreach ETL tool.'
 file_dir = os.getcwd()
 SendMessageWithAttachment(sender, to, subject, message_text, file_dir, log_filename)
