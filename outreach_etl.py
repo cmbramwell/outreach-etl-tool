@@ -35,7 +35,13 @@ from google.cloud import bigquery
 
 from gmail_tools import SendMessageWithAttachment
 
-log_filename = 'log_outreach_script.log'
+from google.oauth2 import service_account
+from google.cloud import bigquery
+
+cred_path = '/Users/christianbramwell/Documents/Turn:River Capital/Coding Scripts/google-cloud-credentials/'
+service_cred = cred_path + "turn-river-capital-5af901fddf11.json"
+
+log_filename = 'log-outreach-script.log'
 file_handler = logging.FileHandler(filename=log_filename, mode='w')
 stdout_handler = logging.StreamHandler(sys.stdout)
 handlers = [file_handler, stdout_handler]
@@ -131,6 +137,9 @@ def outreach_api(endpoint, access_token, querystring=None, next_page_url=None):
     json_data = response.json()
     json_flat = [flatten_json(i) for i in json_data["data"]]
     json_norm = json_normalize(json_flat)
+    if endpoint == 'mailings':
+        json_norm.pop('attributes_bodyHtml')
+        json_norm.pop('attributes_bodyText')
     dF = pd.DataFrame(data=json_norm)
     return {"data": dF, "json_data": json_data}
 
@@ -140,7 +149,7 @@ def sync(endpoint, page_size, querystring=None):
     access_token = get_access_token()['access_token']
 
     response = outreach_api(endpoint, access_token, querystring=querystring) # get the columns of the prospects table
-    response_dF = response['data'] # create empty dataframe
+    response_dF = response['data'] # create empty DataFrame
 
     # Get the number of prospects and number of pages
     num_responses = response['json_data']['meta']['count']
@@ -151,7 +160,6 @@ def sync(endpoint, page_size, querystring=None):
     if num_pages > 1:
 
         count = 2
-
         while 'next' in response['json_data']['links']:
 
             next_page_url = response['json_data']['links']['next']
@@ -162,21 +170,41 @@ def sync(endpoint, page_size, querystring=None):
             response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
 
             logging.info('Completed Page {} out of {}'.format(count, num_pages))
+            complete = 1
             count += 1
 
     file_date = str(datetime.today().date() - timedelta(days=1))
     filename = "{} outreach_{}.csv".format(file_date, endpoint)
     response_dF.to_csv(filename, index=False)
+    #bigquery_upload(config['project'], config['datset'], config['table'], response_dF)
+
+def bigquery_upload(project_name, dataset_name, table_name, dF):
+
+    credentials = service_account.Credentials.from_service_account_file(
+        service_cred)
+
+    # load dataframe into BigQuery
+    client = bigquery.Client(project=project_name, credentials=credentials)
+    dataset_ref = client.dataset(dataset_name)
+    table_ref = dataset_ref.table(table_name)
+
+    client.load_table_from_dataframe(dF, table_ref).result()
+
+    logging.info("Completed BigQuery Upload")
 
 # ---------------------------------------------------------------------------- #
 
-# Set min and max dates for querystring
-min_date = date(2019, 7, 10) # set minimum pull date
-max_date = (datetime.now() - timedelta(days = 1)).date() # set maximum pull date
+if config['replication_type'] == 'full':
+    min_date = datetime.strptime(config['start_date'], "%Y-%m-%d").date()
+    max_date = (datetime.now() - timedelta(days = 1)).date()
+
+else:
+    min_date = (datetime.now() - timedelta(days = 1)).date()
+    max_date = (datetime.now() - timedelta(days = 1)).date()
 
 page_size = 100
 
-querystring = {'sort': '-createdAt',
+querystring = {'sort': '-updatedAt',
                 'page[limit]': str(page_size),
                 'filter[createdAt]': min_date.strftime("%Y-%m-%d") + ".." + max_date.strftime("%Y-%m-%d")}
 
@@ -191,22 +219,3 @@ subject = 'Outreach ETL Log'
 message_text = 'This is the log file for the Outreach ETL tool.'
 file_dir = os.getcwd()
 SendMessageWithAttachment(sender, to, subject, message_text, file_dir, log_filename)
-
-# ---------------------------------------------------------------------------- #
-'''
-# Google Cloud
-
-from google.oauth2 import service_account
-import pandas_gbq
-
-service_cred = "turn-river-capital-81ffa9ec748e.json"
-
-credentials = service_account.Credentials.from_service_account_file(
-    service_cred)
-
-prospects_dF.to_gbq(destination_table="table_name",
-                        if_exists="replace",
-                        credentials=credentials)
-
-logging.info("Completed BigQuery Upload for Prospects")
-'''
