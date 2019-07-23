@@ -1,6 +1,6 @@
 # Outreach ETL Tool
 
-This ETL script will:
+This ETL script:
 
 - Pulls raw data from [Outreach](https://api.outreach.io/api/v2/docs)
 - Extracts the following resources:
@@ -10,7 +10,7 @@ This ETL script will:
   - [Accounts](https://api.outreach.io/api/v2/accounts)
   - [Opportunities](https://api.outreach.io/api/v2/opportunities)
 - Uploads to Google BigQuery
-- Incrementally pulls data
+- Incrementally pulls data via cron job or can do a full replication from a provided date 
 
 **Available Outreach Scopes**
 
@@ -32,7 +32,7 @@ Available scopes: profile, email, create_prospects, read_prospects, update_prosp
   "company": "company_name",
   "email": "email_to_send_log_report",
   "project": "gbq_project",
-  "dataset": "gbq_project",
+  "dataset": "gbq_dataset",
   "table": "gbq_table"
 }
 ```
