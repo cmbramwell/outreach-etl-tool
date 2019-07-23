@@ -4,6 +4,10 @@
   "refresh_token": "refresh_token",
   "scope": "prospects.read sequences.read accounts.read opportunities.read mailings.read",
   "redirect_uri": "redirect_uri",
-  "start_date": "2019-01-01T00:00:00Z",
-  "email": "email to send log file to"
+  "replication_type": "full",
+  "start_date": "2019-01-01",
+  "email": "email_to_send_log_report",
+  "project": "gbq_project",
+  "dataset": "gbq_project",
+  "table": "gbq_table"
 }
