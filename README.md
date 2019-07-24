@@ -10,7 +10,7 @@ This ETL script:
   - [Accounts](https://api.outreach.io/api/v2/accounts)
   - [Opportunities](https://api.outreach.io/api/v2/opportunities)
 - Uploads to Google BigQuery
-- Incrementally pulls data via cron job or can do a full replication from a provided date 
+- Incrementally pulls data via cron job or can do a full replication from a provided date
 
 **Available Outreach Scopes**
 
@@ -29,11 +29,11 @@ Available scopes: profile, email, create_prospects, read_prospects, update_prosp
   "redirect_uri": "redirect_uri",
   "replication_type": "full",
   "start_date": "2019-01-01",
-  "company": "company_name",
   "email": "email_to_send_log_report",
   "project": "gbq_project",
-  "dataset": "gbq_dataset",
-  "table": "gbq_table"
+  "dataset": "gbq_project",
+  "table": "gbq_table",
+  "cred_path": "path_to_credentials"
 }
 ```
 

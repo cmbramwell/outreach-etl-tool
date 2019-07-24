@@ -9,5 +9,6 @@
   "email": "email_to_send_log_report",
   "project": "gbq_project",
   "dataset": "gbq_project",
-  "table": "gbq_table"
+  "table": "gbq_table",
+  "cred_path": "path_to_credentials"
 }
