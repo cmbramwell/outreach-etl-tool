@@ -30,17 +30,12 @@ import requests
 from pandas.io.json import json_normalize
 import json
 
-from google.cloud import storage
-from google.cloud import bigquery
-
-from gmail_tools import SendMessageWithAttachment
+from etl_tools import bigquery_upload
+from etl_tools import SendMessageWithAttachment
+from etl_tools import flatten_json
 
 from google.oauth2 import service_account
 from google.cloud import bigquery
-
-# BigQuery credentials
-cred_path = '/Users/christianbramwell/Documents/Turn:River Capital/Coding Scripts/google-cloud-credentials/'
-service_cred = cred_path + "turn-river-capital-5af901fddf11.json"
 
 # Logging
 log_filename = 'log-outreach-script.log'
@@ -72,25 +67,8 @@ config = load_json('acunetix_creds.json')
 
 # ---------------------------------------------------------------------------- #
 
-# Flatten JSON
-
-def flatten_json(y):
-    out = {}
-
-    def flatten(x, name=''):
-        if type(x) is dict:
-            for a in x:
-                flatten(x[a], name + a + '_')
-        elif type(x) is list:
-            i = 0
-            for a in x:
-                flatten(a, name + str(i) + '_')
-                i += 1
-        else:
-            out[name[:-1]] = x
-
-    flatten(y)
-    return out
+cred_path = config['cred_path']
+service_cred = cred_path + "turn-river-capital-5af901fddf11.json"
 
 def get_access_token():
 
@@ -101,8 +79,8 @@ def get_access_token():
             "client_secret": config["client_secret"],
             "redirect_uri": config["redirect_uri"],
             "grant_type": "refresh_token",
-            "refresh_token": config["refresh_token"]}
-
+            "refresh_token": config["refresh_token"]
+            }
     payload = ""
     headers = {
         }
@@ -144,25 +122,26 @@ def outreach_api(endpoint, access_token, querystring=None, next_page_url=None):
     dF = pd.DataFrame(data=json_norm)
     return {"data": dF, "json_data": json_data}
 
-def sync(endpoint, page_size, date_list):
+def sync(endpoint, page_size, min_date, max_date):
 
     # Get acess token using the refresh token
     access_token = get_access_token()['access_token']
-    response_dF = pd.DataFrame(columns=outreach_api(endpoint, access_token)['data'].columns)
 
-    for date in date_list:
+    querystring = {'sort': '-updatedAt',
+                    'page[limit]': str(page_size),
+                    'filter[updatedAt]': min_date.strftime("%Y-%m-%d") + ".." + max_date.strftime("%Y-%m-%d")}
 
-        querystring = {'sort': '-updatedAt',
-                        'page[limit]': str(page_size),
-                        'filter[updatedAt]': date + ".." + date}
+    response = outreach_api(endpoint, access_token, querystring=querystring)
+    response_dF = pd.DataFrame(columns=response['data'].columns)
+    num_responses = response['json_data']['meta']['count']
 
-        logging.info('Getting {} for {}'.format(endpoint, date))
-        response = outreach_api(endpoint, access_token, querystring=querystring) # get the columns of the prospects table
-        temp_dF = response['data'] # create temporary DataFrame
-        response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
+    if num_responses == 0:
 
-        # Get the number of prospects and number of pages
-        num_responses = response['json_data']['meta']['count']
+        logging.info('There are no {}'.format(endpoint))
+        return
+
+    elif num_responses <= 10000:
+
         logging.info('Number of {} is {}'.format(endpoint, num_responses))
         num_pages = math.ceil(num_responses / page_size)
         logging.info('Completed Page 1 out of {}'.format(num_pages))
@@ -172,34 +151,74 @@ def sync(endpoint, page_size, date_list):
             count = 2
             while 'next' in response['json_data']['links']:
 
-                next_page_url = response['json_data']['links']['next']
-                response = outreach_api(endpoint, access_token, next_page_url=next_page_url)
+                try:
 
-                # Add prospects to dataframe
-                temp_dF = response["data"]
-                response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
+                    next_page_url = response['json_data']['links']['next']
+                    response = outreach_api(endpoint, access_token, next_page_url=next_page_url)
 
-                logging.info('Completed Page {} out of {}'.format(count, num_pages))
-                count += 1
+                except:
 
+                    logging.error('There was an API error.')
+
+                finally:
+
+                    temp_dF = response["data"]
+                    response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
+
+                    logging.info('Completed Page {} out of {}'.format(count, num_pages))
+                    count += 1
+
+
+    else:
+
+        delta = max_date - min_date
+        date_list = [(min_date + timedelta(i)).strftime("%Y-%m-%d") for i in range(delta.days + 1)]
+
+        for date in date_list:
+
+            querystring = {'sort': '-updatedAt',
+                            'page[limit]': str(page_size),
+                            'filter[updatedAt]': date + ".." + date}
+
+            logging.info('Getting {} for {}'.format(endpoint, date))
+            response = outreach_api(endpoint, access_token, querystring=querystring) # get the columns of the prospects table
+            temp_dF = response['data'] # create temporary DataFrame
+            response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
+
+            # Get the number of prospects and number of pages
+            num_responses = response['json_data']['meta']['count']
+            logging.info('Number of {} is {}'.format(endpoint, num_responses))
+            num_pages = math.ceil(num_responses / page_size)
+            logging.info('Completed Page 1 out of {}'.format(num_pages))
+
+            if num_pages > 1:
+
+                count = 2
+                while 'next' in response['json_data']['links']:
+
+                    try:
+
+                        next_page_url = response['json_data']['links']['next']
+                        response = outreach_api(endpoint, access_token, next_page_url=next_page_url)
+
+                    except:
+
+                        logging.error('There was an API error.')
+
+                    finally:
+
+                        temp_dF = response["data"]
+                        response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
+
+                        logging.info('Completed Page {} out of {}'.format(count, num_pages))
+                        count += 1
+
+    response_dF.columns = response_dF.columns.str.replace('attributes_', '')
+    response_dF.createdAt = pd.to_datetime(response_dF.createdAt)
+    response_dF.updatedAt = pd.to_datetime(response_dF.updatedAt)
     response_dF = response_dF.infer_objects()
-    # file_date = str(datetime.today().date())
-    # filename = "{} outreach_{}.csv".format(file_date, endpoint)
-    # response_dF.to_csv(filename, index=False)
-    bigquery_upload(config['project'], config['dataset'], config['table'], response_dF)
-
-def bigquery_upload(project_name, dataset_name, table_name, dF):
-
-    credentials = service_account.Credentials.from_service_account_file(
-        service_cred)
-
-    # load dataframe into BigQuery
-    client = bigquery.Client(project=project_name, credentials=credentials)
-    dataset_ref = client.dataset(dataset_name)
-    table_ref = dataset_ref.table(table_name)
-
-    client.load_table_from_dataframe(dF, table_ref).result()
-
+    table_name = config['table'] + '_' + endpoint
+    bigquery_upload(service_cred, config['project'], config['dataset'], table_name, response_dF)
     logging.info("Completed BigQuery Upload")
 
 # ---------------------------------------------------------------------------- #
@@ -214,13 +233,9 @@ else:
 
 page_size = 100
 
-delta = max_date - min_date
-
-date_list = [(min_date + timedelta(i)).strftime("%Y-%m-%d") for i in range(delta.days + 1)]
-
-sync('prospects', page_size, date_list)
-sync('sequences', page_size, date_list)
-sync('mailings', page_size, date_list)
+sync('prospects', page_size, min_date, max_date)
+sync('sequences', page_size, min_date, max_date)
+sync('mailings', page_size, min_date, max_date)
 
 # Send log file via email
 sender = 'me'
@@ -228,4 +243,4 @@ to = config['email']
 subject = config['table'] + ' - Outreach ETL Log'
 message_text = 'This is the log file for the Outreach ETL tool.'
 file_dir = os.getcwd()
-SendMessageWithAttachment(sender, to, subject, message_text, file_dir, log_filename)
+SendMessageWithAttachment(cred_path, sender, to, subject, message_text, file_dir, log_filename)

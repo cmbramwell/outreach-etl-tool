@@ -8,6 +8,9 @@ from apiclient import discovery
 from apiclient import errors
 from httplib2 import Http
 
+from google.oauth2 import service_account
+from google.cloud import bigquery
+
 import base64
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
@@ -19,34 +22,56 @@ import os
 
 from apiclient import errors
 
-# Authentication Flow
+# ---------------------------------------------------------------------------- #
 
-SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+# BIGQUERY Functions
 
-path_cred = '/Users/christianbramwell/Documents/Turn:River Capital/Coding Scripts/google-cloud-credentials/'
+def bigquery_upload(service_cred, project_name, dataset_name, table_name, dF):
 
-creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-if os.path.exists(path_cred + 'token.pickle'):
-    with open(path_cred + 'token.pickle', 'rb') as token:
-        creds = pickle.load(token)
-# If there are no (valid) credentials available, let the user log in.
-if not creds or not creds.valid:
-    if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-    else:
-        flow = InstalledAppFlow.from_client_secrets_file(
-            path_cred + 'credentials_2.json', SCOPES)
-        creds = flow.run_local_server()
-    # Save the credentials for the next run
-    with open(path_cred + 'token.pickle', 'wb') as token:
-        pickle.dump(creds, token)
+    credentials = service_account.Credentials.from_service_account_file(
+        service_cred)
 
-GMAIL = discovery.build('gmail', 'v1', credentials=creds, cache_discovery=False)
+    # load dataframe into BigQuery
+    client = bigquery.Client(project=project_name, credentials=credentials)
+    dataset_ref = client.dataset(dataset_name)
+    table_ref = dataset_ref.table(table_name)
 
-def SendMessageWithAttachment(sender, to, subject, message_text, file_dir, filename):
+    client.load_table_from_dataframe(dF, table_ref).result()
+
+# ---------------------------------------------------------------------------- #
+
+# GMAIL Functions
+
+def google_auth(cred_path):
+
+    SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+
+    creds = None
+        # The file token.pickle stores the user's access and refresh tokens, and is
+        # created automatically when the authorization flow completes for the first
+        # time.
+    if os.path.exists(cred_path + 'token.pickle'):
+        with open(cred_path + 'token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                cred_path + 'credentials_2.json', SCOPES)
+            creds = flow.run_local_server()
+        # Save the credentials for the next run
+        with open(cred_path + 'token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    GMAIL = discovery.build('gmail', 'v1', credentials=creds, cache_discovery=False)
+    return GMAIL
+
+def SendMessageWithAttachment(cred_path, sender, to, subject, message_text, file_dir, filename):
+
+    GMAIL = google_auth(cred_path)
+
     """Create a message for an email.
 
     Args:
@@ -102,3 +127,27 @@ def SendMessageWithAttachment(sender, to, subject, message_text, file_dir, filen
     GMAIL.users().messages().send(userId='me', body=body).execute()
 
     return {'raw': body}
+
+# ---------------------------------------------------------------------------- #
+
+# Flatten JSON
+
+def flatten_json(y):
+    out = {}
+
+    def flatten(x, name=''):
+        if type(x) is dict:
+            for a in x:
+                flatten(x[a], name + a + '_')
+        elif type(x) is list:
+            i = 0
+            for a in x:
+                flatten(a, name + str(i) + '_')
+                i += 1
+        else:
+            out[name[:-1]] = x
+
+    flatten(y)
+    return out
+
+# ---------------------------------------------------------------------------- #
