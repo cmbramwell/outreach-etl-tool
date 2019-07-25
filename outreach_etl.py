@@ -69,6 +69,7 @@ config = load_json('acunetix_creds.json')
 
 cred_path = config['cred_path']
 service_cred = cred_path + "turn-river-capital-5af901fddf11.json"
+token_expires = None
 
 def get_access_token():
 
@@ -86,9 +87,10 @@ def get_access_token():
         }
 
     response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
+    token_expires = datetime.now() + timedelta(seconds=7200 - 100)
     return response.json()
 
-def outreach_api(endpoint, access_token, querystring=None, next_page_url=None):
+def request(endpoint, querystring=None, next_page_url=None):
 
     if endpoint == 'prospects':
         url = 'https://api.outreach.io/api/v2/prospects'
@@ -100,6 +102,10 @@ def outreach_api(endpoint, access_token, querystring=None, next_page_url=None):
         url = 'https://api.outreach.io/api/v2/accounts'
     elif endpoint == 'opportunities':
         url = 'https://api.outreach.io/api/v2/opportunities'
+
+    if token_expires is None or datetime.now() > token_expires:
+        global access_token
+        access_token = get_access_token()['access_token']
 
     payload = ""
     headers = {
@@ -124,14 +130,11 @@ def outreach_api(endpoint, access_token, querystring=None, next_page_url=None):
 
 def sync(endpoint, page_size, min_date, max_date):
 
-    # Get acess token using the refresh token
-    access_token = get_access_token()['access_token']
-
     querystring = {'sort': '-updatedAt',
                     'page[limit]': str(page_size),
                     'filter[updatedAt]': min_date.strftime("%Y-%m-%d") + ".." + max_date.strftime("%Y-%m-%d")}
 
-    response = outreach_api(endpoint, access_token, querystring=querystring)
+    response = request(endpoint, querystring=querystring)
     response_dF = pd.DataFrame(columns=response['data'].columns)
     num_responses = response['json_data']['meta']['count']
 
@@ -148,17 +151,25 @@ def sync(endpoint, page_size, min_date, max_date):
 
         if num_pages > 1:
 
-            count = 2
+            count = 1
             while 'next' in response['json_data']['links']:
 
                 try:
 
                     next_page_url = response['json_data']['links']['next']
-                    response = outreach_api(endpoint, access_token, next_page_url=next_page_url)
+
+                    complete = None
+                    while complete == None:
+                        response = request(endpoint, next_page_url=next_page_url)
+                        complete = True
 
                 except:
 
                     logging.error('There was an API error.')
+
+                else:
+
+                    count += 1
 
                 finally:
 
@@ -166,8 +177,6 @@ def sync(endpoint, page_size, min_date, max_date):
                     response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
 
                     logging.info('Completed Page {} out of {}'.format(count, num_pages))
-                    count += 1
-
 
     else:
 
@@ -181,7 +190,12 @@ def sync(endpoint, page_size, min_date, max_date):
                             'filter[updatedAt]': date + ".." + date}
 
             logging.info('Getting {} for {}'.format(endpoint, date))
-            response = outreach_api(endpoint, access_token, querystring=querystring) # get the columns of the prospects table
+
+            complete = None
+            while complete == None:
+                response = request(endpoint, querystring=querystring) # get the columns of the prospects table
+                complete = True
+
             temp_dF = response['data'] # create temporary DataFrame
             response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
 
@@ -193,17 +207,25 @@ def sync(endpoint, page_size, min_date, max_date):
 
             if num_pages > 1:
 
-                count = 2
+                count = 1
                 while 'next' in response['json_data']['links']:
 
                     try:
 
                         next_page_url = response['json_data']['links']['next']
-                        response = outreach_api(endpoint, access_token, next_page_url=next_page_url)
+
+                        complete2 = None
+                        while complete2 == None:
+                            response = request(endpoint, next_page_url=next_page_url)
+                            complete2 = True
 
                     except:
 
                         logging.error('There was an API error.')
+
+                    else:
+
+                        count += 1
 
                     finally:
 
@@ -211,7 +233,6 @@ def sync(endpoint, page_size, min_date, max_date):
                         response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
 
                         logging.info('Completed Page {} out of {}'.format(count, num_pages))
-                        count += 1
 
     response_dF.columns = response_dF.columns.str.replace('attributes_', '')
     response_dF.createdAt = pd.to_datetime(response_dF.createdAt)
@@ -233,14 +254,14 @@ else:
 
 page_size = 100
 
-sync('prospects', page_size, min_date, max_date)
-sync('sequences', page_size, min_date, max_date)
+#sync('prospects', page_size, min_date, max_date)
+#sync('sequences', page_size, min_date, max_date)
 sync('mailings', page_size, min_date, max_date)
 
 # Send log file via email
 sender = 'me'
 to = config['email']
-subject = config['table'] + ' - Outreach ETL Log'
+subject = 'Outreach ETL Log - ' + config['table']
 message_text = 'This is the log file for the Outreach ETL tool.'
 file_dir = os.getcwd()
 SendMessageWithAttachment(cred_path, sender, to, subject, message_text, file_dir, log_filename)
