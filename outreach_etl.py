@@ -154,29 +154,24 @@ def sync(endpoint, page_size, min_date, max_date):
             count = 1
             while 'next' in response['json_data']['links']:
 
-                try:
+                complete = None
+                while complete == None:
 
-                    next_page_url = response['json_data']['links']['next']
-
-                    complete = None
-                    while complete == None:
+                    try:
+                        next_page_url = response['json_data']['links']['next']
                         response = request(endpoint, next_page_url=next_page_url)
+
+                    except:
+                        logging.error('There was an API error.')
+
+                    else:
+                        count += 1
                         complete = True
 
-                except:
-
-                    logging.error('There was an API error.')
-
-                else:
-
-                    count += 1
-
-                finally:
-
-                    temp_dF = response["data"]
-                    response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
-
-                    logging.info('Completed Page {} out of {}'.format(count, num_pages))
+                    finally:
+                        temp_dF = response["data"]
+                        response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
+                        logging.info('Completed Page {} out of {}'.format(count, num_pages))
 
     else:
 
@@ -193,8 +188,15 @@ def sync(endpoint, page_size, min_date, max_date):
 
             complete = None
             while complete == None:
-                response = request(endpoint, querystring=querystring) # get the columns of the prospects table
-                complete = True
+
+                try:
+                    response = request(endpoint, querystring=querystring) # get the columns of the prospects table
+
+                except:
+                    logging.error('There was an API error.')
+
+                else:
+                    complete = True
 
             temp_dF = response['data'] # create temporary DataFrame
             response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
@@ -210,29 +212,24 @@ def sync(endpoint, page_size, min_date, max_date):
                 count = 1
                 while 'next' in response['json_data']['links']:
 
-                    try:
+                    complete2 = None
+                    while complete2 == None:
 
-                        next_page_url = response['json_data']['links']['next']
-
-                        complete2 = None
-                        while complete2 == None:
+                        try:
+                            next_page_url = response['json_data']['links']['next']
                             response = request(endpoint, next_page_url=next_page_url)
+
+                        except:
+                            logging.error('There was an API error.')
+
+                        else:
+                            count += 1
                             complete2 = True
 
-                    except:
-
-                        logging.error('There was an API error.')
-
-                    else:
-
-                        count += 1
-
-                    finally:
-
-                        temp_dF = response["data"]
-                        response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
-
-                        logging.info('Completed Page {} out of {}'.format(count, num_pages))
+                        finally:
+                            temp_dF = response["data"]
+                            response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
+                            logging.info('Completed Page {} out of {}'.format(count, num_pages))
 
     response_dF.columns = response_dF.columns.str.replace('attributes_', '')
     response_dF.createdAt = pd.to_datetime(response_dF.createdAt)
