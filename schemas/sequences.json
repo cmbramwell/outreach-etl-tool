@@ -1,0 +1,273 @@
+{
+
+  "attributes_automationPercentage": {
+    "type": ["null", "float"]
+  },
+  "attributes_bounceCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_clickCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_createdAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_deliverCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_description": {
+    "type": ["null", "string"]
+  },
+  "attributes_durationInDays": {
+    "type": ["null", "integer"]
+  },
+  "attributes_enabled": {
+    "type": ["null", "boolean"]
+  },
+  "attributes_enabledAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_failureCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_finishOnReply": {
+    "type": ["null", "boolean"]
+  },
+  "attributes_lastUsedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_locked": {
+    "type": ["null", "boolean"]
+  },
+  "attributes_lockedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_maxActivations": {
+    "type": ["null", "integer"]
+  },
+  "attributes_name": {
+    "type": ["null", "string"]
+  },
+  "attributes_negativeReplyCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_neutralReplyCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_numContactedProspects": {
+    "type": ["null", "integer"]
+  },
+  "attributes_numRepliedProspects": {
+    "type": ["null", "integer"]
+  },
+  "attributes_openCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_optOutCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_positiveReplyCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_primaryReplyAction": {
+    "type": ["null", "string"]
+  },
+  "attributes_primaryReplyPauseDuration": {
+    "type": ["null", "integer"]
+  },
+  "attributes_replyCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_scheduleCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_scheduleIntervalType": {
+    "type": ["null", "string"]
+  },
+  "attributes_secondaryReplyAction": {
+    "type": ["null", "string"]
+  },
+  "attributes_secondaryReplyPauseDuration": {
+    "type": ["null", "integer"]
+  },
+  "attributes_sequenceStepCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_sequenceType": {
+    "type": ["null", "string"]
+  },
+  "attributes_shareType": {
+    "type": ["null", "string"]
+  },
+  "attributes_tags_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_throttleCapacity": {
+    "type": ["null", "integer"]
+  },
+  "attributes_throttleMaxAddsPerDay": {
+    "type": ["null", "integer"]
+  },
+  "attributes_throttlePaused": {
+    "type": ["null", "boolean"]
+  },
+  "attributes_throttlePausedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_updatedAt": {
+    "type": ["null", "datetime"]
+  },
+  "id": {
+    "type": ["null", "integer"]
+  },
+  "links_self": {
+    "type": ["null", "string"]
+  },
+  "relationships_calls_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_contentCategoryMemberships_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_contentCategoryMemberships_meta_count": {
+    "type": ["null", "integer"]
+  },
+  "relationships_creator_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_creator_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_mailings_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_owner_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_owner_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_ruleset_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_ruleset_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceStates_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_0_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_0_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_10_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_10_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_11_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_11_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_12_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_12_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_13_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_13_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_14_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_14_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_15_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_15_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_1_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_1_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_2_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_2_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_3_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_3_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_4_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_4_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_5_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_5_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_6_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_6_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_7_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_7_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_8_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_8_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_data_9_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceSteps_data_9_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceSteps_meta_count": {
+    "type": ["null", "integer"]
+  },
+  "relationships_tasks_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_updater_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_updater_data_type": {
+    "type": ["null", "string"]
+  },
+  "type": {
+    "type": ["null", "string"]
+  }
+}

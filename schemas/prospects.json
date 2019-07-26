@@ -1,0 +1,623 @@
+{
+  "attributes_addedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_addressCity": {
+    "type": ["null", "string"]
+  },
+  "attributes_addressCountry": {
+    "type": ["null", "string"]
+  },
+  "attributes_addressState": {
+    "type": ["null", "string"]
+  },
+  "attributes_addressStreet": {
+    "type": ["null", "string"]
+  },
+  "attributes_addressStreet2": {
+    "type": ["null", "string"]
+  },
+  "attributes_addressZip": {
+    "type": ["null", "string"]
+  },
+  "attributes_angelListUrl": {
+    "type": ["null", "string"]
+  },
+  "attributes_availableAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_callOptedOut": {
+    "type": ["null", "boolean"]
+  },
+  "attributes_callsOptStatus": {
+    "type": ["null", "string"]
+  },
+  "attributes_callsOptedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_campaignName": {
+    "type": ["null", "string"]
+  },
+  "attributes_clickCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_contactHistogram_0_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_0_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_10_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_10_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_11_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_11_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_1_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_1_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_2_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_2_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_3_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_3_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_4_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_4_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_5_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_5_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_6_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_6_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_7_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_7_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_8_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_8_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_9_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_contactHistogram_9_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_createdAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_custom1": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom10": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom11": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom12": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom13": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom14": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom15": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom16": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom17": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom18": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom19": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom2": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom20": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom21": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom22": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom23": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom24": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom25": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom26": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom27": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom28": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom29": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom3": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom30": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom31": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom32": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom33": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom34": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom35": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom36": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom37": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom38": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom39": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom4": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom40": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom41": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom42": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom43": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom44": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom45": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom46": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom47": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom48": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom49": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom5": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom50": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom51": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom52": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom53": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom54": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom55": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom6": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom7": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom8": {
+    "type": ["null", "string"]
+  },
+  "attributes_custom9": {
+    "type": ["null", "string"]
+  },
+  "attributes_dateOfBirth": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_degree": {
+    "type": ["null", "string"]
+  },
+  "attributes_emailOptedOut": {
+    "type": ["null", "boolean"]
+  },
+  "attributes_emailsOptStatus": {
+    "type": ["null", "string"]
+  },
+  "attributes_emailsOptedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_emails_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_emails_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_engagedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_engagedScore": {
+    "type": ["null", "float"]
+  },
+  "attributes_eventName": {
+    "type": ["null", "string"]
+  },
+  "attributes_externalId": {
+    "type": ["null", "string"]
+  },
+  "attributes_externalOwner": {
+    "type": ["null", "string"]
+  },
+  "attributes_externalSource": {
+    "type": ["null", "string"]
+  },
+  "attributes_facebookUrl": {
+    "type": ["null", "string"]
+  },
+  "attributes_firstName": {
+    "type": ["null", "string"]
+  },
+  "attributes_gender": {
+    "type": ["null", "string"]
+  },
+  "attributes_githubUrl": {
+    "type": ["null", "string"]
+  },
+  "attributes_githubUsername": {
+    "type": ["null", "string"]
+  },
+  "attributes_googlePlusUrl": {
+    "type": ["null", "string"]
+  },
+  "attributes_graduationDate": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_homePhones_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_jobStartDate": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_lastName": {
+    "type": ["null", "string"]
+  },
+  "attributes_linkedInConnections": {
+    "type": ["null", "integer"]
+  },
+  "attributes_linkedInId": {
+    "type": ["null", "string"]
+  },
+  "attributes_linkedInSlug": {
+    "type": ["null", "string"]
+  },
+  "attributes_linkedInUrl": {
+    "type": ["null", "string"]
+  },
+  "attributes_middleName": {
+    "type": ["null", "string"]
+  },
+  "attributes_mobilePhones_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_name": {
+    "type": ["null", "string"]
+  },
+  "attributes_nickname": {
+    "type": ["null", "string"]
+  },
+  "attributes_occupation": {
+    "type": ["null", "string"]
+  },
+  "attributes_openCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_optedOut": {
+    "type": ["null", "boolean"]
+  },
+  "attributes_optedOutAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_otherPhones_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_personalNote1": {
+    "type": ["null", "string"]
+  },
+  "attributes_personalNote2": {
+    "type": ["null", "string"]
+  },
+  "attributes_preferredContact": {
+    "type": ["null", "string"]
+  },
+  "attributes_quoraUrl": {
+    "type": ["null", "string"]
+  },
+  "attributes_region": {
+    "type": ["null", "string"]
+  },
+  "attributes_replyCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_school": {
+    "type": ["null", "string"]
+  },
+  "attributes_score": {
+    "type": ["null", "float"]
+  },
+  "attributes_smsOptStatus": {
+    "type": ["null", "string"]
+  },
+  "attributes_smsOptedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_smsOptedOut": {
+    "type": ["null", "boolean"]
+  },
+  "attributes_source": {
+    "type": ["null", "string"]
+  },
+  "attributes_specialties": {
+    "type": ["null", "string"]
+  },
+  "attributes_stackOverflowId": {
+    "type": ["null", "string"]
+  },
+  "attributes_stackOverflowUrl": {
+    "type": ["null", "string"]
+  },
+  "attributes_tags_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_tags_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_timeZone": {
+    "type": ["null", "string"]
+  },
+  "attributes_timeZoneIana": {
+    "type": ["null", "string"]
+  },
+  "attributes_timeZoneInferred": {
+    "type": ["null", "string"]
+  },
+  "attributes_title": {
+    "type": ["null", "string"]
+  },
+  "attributes_touchedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_twitterUrl": {
+    "type": ["null", "string"]
+  },
+  "attributes_twitterUsername": {
+    "type": ["null", "string"]
+  },
+  "attributes_updatedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_websiteUrl1": {
+    "type": ["null", "string"]
+  },
+  "attributes_websiteUrl2": {
+    "type": ["null", "string"]
+  },
+  "attributes_websiteUrl3": {
+    "type": ["null", "string"]
+  },
+  "attributes_workPhones_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_workPhones_1": {
+    "type": ["null", "string"]
+  },
+  "id": {
+    "type": ["null", "integer"]
+  },
+  "links_self": {
+    "type": ["null", "string"]
+  },
+  "relationships_account_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_account_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_activeSequenceStates_data_0_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_activeSequenceStates_data_0_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_activeSequenceStates_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_activeSequenceStates_meta_count": {
+    "type": ["null", "integer"]
+  },
+  "relationships_batches_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_calls_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_creator_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_creator_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_creator_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_defaultPluginMapping_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_defaultPluginMapping_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_defaultPluginMapping_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_emailAddresses_data_0_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_emailAddresses_data_0_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_emailAddresses_data_1_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_emailAddresses_data_1_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_emailAddresses_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_emailAddresses_meta_count": {
+    "type": ["null", "integer"]
+  },
+  "relationships_favorites_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_favorites_meta_count": {
+    "type": ["null", "integer"]
+  },
+  "relationships_mailings_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_opportunities_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_opportunities_meta_count": {
+    "type": ["null", "integer"]
+  },
+  "relationships_owner_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_owner_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_persona_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_phoneNumbers_data_0_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_phoneNumbers_data_0_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_phoneNumbers_data_1_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_phoneNumbers_data_1_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_phoneNumbers_data_2_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_phoneNumbers_data_2_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_phoneNumbers_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_phoneNumbers_meta_count": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceStates_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_stage_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_stage_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_stage_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_tasks_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_updater_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_updater_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_updater_data_type": {
+    "type": ["null", "string"]
+  },
+  "type": {
+    "type": ["null", "string"]
+  }
+}

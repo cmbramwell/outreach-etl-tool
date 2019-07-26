@@ -1,0 +1,206 @@
+{
+  "attributes_bodyHtml": {
+    "type": ["null", "string"]
+  },
+  "attributes_bodyText": {
+    "type": ["null", "string"]
+  },
+  "attributes_bouncedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_clickCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_clickedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_createdAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_deliveredAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_errorBacktrace": {
+    "type": ["null", "string"]
+  },
+  "attributes_errorReason": {
+    "type": ["null", "string"]
+  },
+  "attributes_followUpTaskScheduledAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_followUpTaskType": {
+    "type": ["null", "string"]
+  },
+  "attributes_mailboxAddress": {
+    "type": ["null", "string"]
+  },
+  "attributes_mailingType": {
+    "type": ["null", "string"]
+  },
+  "attributes_markedAsSpamAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_messageId": {
+    "type": ["null", "string"]
+  },
+  "attributes_notifyThreadCondition": {
+    "type": ["null", "string"]
+  },
+  "attributes_notifyThreadScheduledAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_notifyThreadStatus": {
+    "type": ["null", "string"]
+  },
+  "attributes_openCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_openedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_overrideSafetySettings": {
+    "type": ["null", "string"]
+  },
+  "attributes_references_0": {
+    "type": ["null", "string"]
+  },
+  "attributes_references_1": {
+    "type": ["null", "string"]
+  },
+  "attributes_references_2": {
+    "type": ["null", "string"]
+  },
+  "attributes_references_3": {
+    "type": ["null", "string"]
+  },
+  "attributes_references_4": {
+    "type": ["null", "string"]
+  },
+  "attributes_references_5": {
+    "type": ["null", "string"]
+  },
+  "attributes_references_6": {
+    "type": ["null", "string"]
+  },
+  "attributes_repliedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_retryAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_retryCount": {
+    "type": ["null", "integer"]
+  },
+  "attributes_retryInterval": {
+    "type": ["null", "integer"]
+  },
+  "attributes_scheduledAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_state": {
+    "type": ["null", "string"]
+  },
+  "attributes_stateChangedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_subject": {
+    "type": ["null", "string"]
+  },
+  "attributes_trackLinks": {
+    "type": ["null", "boolean"]
+  },
+  "attributes_trackOpens": {
+    "type": ["null", "boolean"]
+  },
+  "attributes_unsubscribedAt": {
+    "type": ["null", "datetime"]
+  },
+  "attributes_updatedAt": {
+    "type": ["null", "datetime"]
+  },
+  "id": {
+    "type": ["null", "integer"]
+  },
+  "links_self": {
+    "type": ["null", "string"]
+  },
+  "relationships_calendar_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_mailbox_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_mailbox_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_opportunity_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_prospect_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_prospect_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceState_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceState_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceState_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceStep_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequenceStep_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequenceStep_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequence_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_sequence_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_sequence_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_task_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_task_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_task_data_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_tasks_data_0_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_tasks_data_0_type": {
+    "type": ["null", "string"]
+  },
+  "relationships_tasks_links_related": {
+    "type": ["null", "string"]
+  },
+  "relationships_tasks_meta_count": {
+    "type": ["null", "integer"]
+  },
+  "relationships_template_data": {
+    "type": ["null", "string"]
+  },
+  "relationships_template_data_id": {
+    "type": ["null", "integer"]
+  },
+  "relationships_template_data_type": {
+    "type": ["null", "string"]
+  },
+  "type": {
+    "type": ["null", "string"]
+  }
+}
