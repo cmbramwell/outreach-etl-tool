@@ -40,6 +40,12 @@ def create_dF_from_schema(endpoint):
 
     dF = pd.DataFrame(columns=list(schema.keys()))
 
+    return dF
+
+def update_dF_dtypes_from_schema(endpoint, dF):
+
+    schema = load_json("schemas/" + endpoint + ".json")
+
     for col, dtype in schema.items():
 
         dtype = dtype['type'][1]

@@ -35,6 +35,7 @@ from etl_tools import bigquery_upload
 from etl_tools import SendMessageWithAttachment
 from etl_tools import flatten_json
 from etl_tools import create_dF_from_schema
+from etl_tools import update_dF_dtypes_from_schema
 
 from google.oauth2 import service_account
 from google.cloud import bigquery
@@ -231,6 +232,7 @@ def sync(endpoint, page_size, min_date, max_date):
                             response_dF = pd.concat([response_dF, temp_dF], axis=0, ignore_index=True, sort=False)
                             logging.info('Completed Page {} out of {}'.format(count, num_pages))
 
+    response_dF = update_dF_dtypes_from_schema(endpoint, response_dF)
     response_dF.columns = response_dF.columns.str.replace('attributes_', '')
     table_name = config['table'] + '_' + endpoint
     bigquery_upload(service_cred, config['project'], config['dataset'], table_name, response_dF)
@@ -249,8 +251,8 @@ else:
 page_size = 100
 
 sync('prospects', page_size, min_date, max_date)
-#sync('sequences', page_size, min_date, max_date)
-#sync('mailings', page_size, min_date, max_date)
+sync('sequences', page_size, min_date, max_date)
+sync('mailings', page_size, min_date, max_date)
 
 # Send log file via email
 sender = 'me'
