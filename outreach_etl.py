@@ -30,9 +30,11 @@ import requests
 from pandas.io.json import json_normalize
 import json
 
+from etl_tools import load_json
 from etl_tools import bigquery_upload
 from etl_tools import SendMessageWithAttachment
 from etl_tools import flatten_json
+from etl_tools import create_dF_from_schema
 
 from google.oauth2 import service_account
 from google.cloud import bigquery
@@ -49,9 +51,6 @@ logging.basicConfig(handlers=handlers, level=logging.INFO, format=format, datefm
 
 # Parse Arguments
 
-def load_json(path):
-    with open(path) as fil:
-        return json.load(fil)
 '''
 parser = argparse.ArgumentParser()
 
@@ -130,12 +129,13 @@ def request(endpoint, querystring=None, next_page_url=None):
 
 def sync(endpoint, page_size, min_date, max_date):
 
+    response_dF = create_dF_from_schema(endpoint)
+
     querystring = {'sort': '-updatedAt',
                     'page[limit]': str(page_size),
                     'filter[updatedAt]': min_date.strftime("%Y-%m-%d") + ".." + max_date.strftime("%Y-%m-%d")}
 
     response = request(endpoint, querystring=querystring)
-    response_dF = pd.DataFrame(columns=response['data'].columns)
     num_responses = response['json_data']['meta']['count']
 
     if num_responses == 0:
@@ -232,9 +232,6 @@ def sync(endpoint, page_size, min_date, max_date):
                             logging.info('Completed Page {} out of {}'.format(count, num_pages))
 
     response_dF.columns = response_dF.columns.str.replace('attributes_', '')
-    response_dF.createdAt = pd.to_datetime(response_dF.createdAt)
-    response_dF.updatedAt = pd.to_datetime(response_dF.updatedAt)
-    response_dF = response_dF.infer_objects()
     table_name = config['table'] + '_' + endpoint
     bigquery_upload(service_cred, config['project'], config['dataset'], table_name, response_dF)
     logging.info("Completed BigQuery Upload")
@@ -251,9 +248,9 @@ else:
 
 page_size = 100
 
-#sync('prospects', page_size, min_date, max_date)
+sync('prospects', page_size, min_date, max_date)
 #sync('sequences', page_size, min_date, max_date)
-sync('mailings', page_size, min_date, max_date)
+#sync('mailings', page_size, min_date, max_date)
 
 # Send log file via email
 sender = 'me'
