@@ -1,3 +1,7 @@
+import json
+import numpy as np
+import pandas as pd
+
 import pickle
 import os.path
 from googleapiclient.discovery import build
@@ -21,6 +25,34 @@ import mimetypes
 import os
 
 from apiclient import errors
+
+# ---------------------------------------------------------------------------- #
+
+# SCHEMA Functions
+
+def load_json(path):
+    with open(path) as fil:
+        return json.load(fil)
+
+def create_dF_from_schema(endpoint):
+
+    schema = load_json("schemas/" + endpoint + ".json")
+
+    dF = pd.DataFrame(columns=list(schema.keys()))
+
+    for col, dtype in schema.items():
+
+        dtype = dtype['type'][1]
+        if dtype == 'string' or dtype == 'boolean':
+            continue
+        if dtype == 'integer':
+            dF[col] = pd.to_numeric(dF[col], downcast='integer')
+        if dtype == 'float':
+            dF[col] = pd.to_numeric(dF[col], downcast='float')
+        if dtype == 'datetime':
+            dF[col] = pd.to_datetime(dF[col])
+
+    return dF
 
 # ---------------------------------------------------------------------------- #
 
