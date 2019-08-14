@@ -82,7 +82,10 @@ def bigquery_upload(service_cred, project_name, dataset_name, table_name, dF):
 
 def google_auth(cred_path):
 
-    SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+    SCOPES = [
+        'https://www.googleapis.com/auth/gmail.send',
+        'https://www.googleapis.com/auth/webmasters.readonly'
+        ]
 
     creds = None
         # The file token.pickle stores the user's access and refresh tokens, and is
@@ -104,11 +107,12 @@ def google_auth(cred_path):
             pickle.dump(creds, token)
 
     GMAIL = discovery.build('gmail', 'v1', credentials=creds, cache_discovery=False)
-    return GMAIL
+    WEBMASTER = discovery.build('webmasters', 'v3', credentials=creds, cache_discovery=False)
+    return {'gmail': GMAIL, 'search_console': WEBMASTER}
 
 def SendMessageWithAttachment(cred_path, sender, to, subject, message_text, file_dir, filename):
 
-    GMAIL = google_auth(cred_path)
+    GMAIL = google_auth(cred_path)['gmail']
 
     """Create a message for an email.
 

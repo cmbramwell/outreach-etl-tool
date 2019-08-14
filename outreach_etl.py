@@ -1,20 +1,3 @@
-# ---------------------------------------------------------------------------- #
-
-'''
-
-Outreach API Calls
-
-By: Christian Bramwell
-Goal: This script will collect Outreach API data and upload to BigQuery
-
-Outreach - https://api.outreach.io/api/v2/docs
-
-'''
-
-# ---------------------------------------------------------------------------- #
-
-# Import libraries
-
 import sys
 import logging
 import time
@@ -52,7 +35,6 @@ logging.basicConfig(handlers=handlers, level=logging.INFO, format=format, datefm
 
 # Parse Arguments
 
-'''
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
@@ -62,8 +44,6 @@ parser.add_argument(
 
 args = parser.parse_args()
 config = load_json(args.config)
-'''
-config = load_json('acunetix_creds.json')
 
 # ---------------------------------------------------------------------------- #
 
